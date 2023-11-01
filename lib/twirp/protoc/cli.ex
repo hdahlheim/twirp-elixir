@@ -14,7 +14,7 @@ defmodule Twirp.Protoc.CLI do
     ctx =
       %Protobuf.Protoc.Context{}
       |> Protobuf.Protoc.CLI.parse_params(request.parameter || "")
-      |> Protobuf.Protoc.CLI.find_types(request.proto_file)
+      |> Protobuf.Protoc.CLI.find_types(request.proto_file, request.file_to_generate)
 
     files =
       request.proto_file
@@ -23,7 +23,7 @@ defmodule Twirp.Protoc.CLI do
       |> Enum.map(&add_comments_to_methods/1)
       |> Enum.map(fn desc -> Twirp.Protoc.Generator.generate(ctx, desc) end)
 
-    response = Google.Protobuf.Compiler.CodeGeneratorResponse.new(file: files)
+    response = struct(Google.Protobuf.Compiler.CodeGeneratorResponse, file: files)
     IO.binwrite(Protobuf.Encoder.encode(response))
   end
 

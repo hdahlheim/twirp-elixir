@@ -8,16 +8,12 @@ defmodule Twirp.PlugTest do
     @moduledoc false
     use Protobuf, syntax: :proto3
 
-    defstruct [:inches]
-
     field :inches, 1, type: :int32
   end
 
   defmodule Hat do
     @moduledoc false
     use Protobuf, syntax: :proto3
-
-    defstruct [:color]
 
     field :color, 2, type: :string
   end
@@ -223,7 +219,7 @@ defmodule Twirp.PlugTest do
     assert content_type(conn) == "application/json"
     resp = Jason.decode!(conn.resp_body)
     assert resp["code"] == "internal"
-    assert resp["msg"] == "Handler method make_hat expected to return one of Elixir.Twirp.PlugTest.Hat or Twirp.Error but returned %Twirp.PlugTest.Size{inches: 10}"
+    assert resp["msg"] == "Handler method make_hat expected to return one of Elixir.Twirp.PlugTest.Hat or Twirp.Error but returned %Twirp.PlugTest.Size{inches: 10, __unknown_fields__: []}"
   end
 
   test "handler doesn't return an error, struct or map" do

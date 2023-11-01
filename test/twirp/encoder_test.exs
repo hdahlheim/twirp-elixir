@@ -48,7 +48,7 @@ defmodule Twirp.EncoderTest do
 
   describe "encode/3 as json " do
     test "encodes to JSON without implementing a JSON protocol" do
-      assert ~S({"msg":"test","sub":{"msg":"test"}}) ==
+      assert ~S({"sub":{"msg":"test"},"msg":"test"}) ==
                Encoder.encode(
                  %Envelope{msg: "test", sub: %Req{msg: "test"}},
                  Envelope,
